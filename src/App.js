@@ -1,6 +1,7 @@
 
 import './App.css';
 import DefaultLayout from './layout/DefaultLayout';
+import Dashboard from './pages/Dashboard/Dashboard';
 //import EntryPage from './pages/entry/EntryPage';
 
 function App() {
@@ -8,7 +9,7 @@ function App() {
     <div className="App">
       {/* <EntryPage /> */}
       <DefaultLayout>
-        Dashboard HERE!!
+        <Dashboard />
       </DefaultLayout>
     </div>
   );
