@@ -49,7 +49,7 @@ const LoginForm = ({ handleChange, handleSubmit, formSwitcher, email, pass }) =>
     )
 }
 
-LoginForm.propsTypes = {
+LoginForm.propTypes = {
     handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     formSwitcher: PropTypes.func.isRequired,

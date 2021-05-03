@@ -2,6 +2,7 @@
 import './App.css';
 import DefaultLayout from './layout/DefaultLayout';
 import Dashboard from './pages/Dashboard/Dashboard';
+import AddTicket from './pages/New-ticket/AddTicket';
 //import EntryPage from './pages/entry/EntryPage';
 
 function App() {
@@ -9,7 +10,8 @@ function App() {
     <div className="App">
       {/* <EntryPage /> */}
       <DefaultLayout>
-        <Dashboard />
+        {/* <Dashboard /> */}
+        <AddTicket />
       </DefaultLayout>
     </div>
   );
