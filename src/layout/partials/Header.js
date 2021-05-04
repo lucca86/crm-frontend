@@ -1,7 +1,18 @@
 import React from 'react';
 import { Navbar, Nav } from "react-bootstrap";
+import { useHistory } from 'react-router-dom';
+import {LinkContainer} from 'react-router-bootstrap';
+
 
 const Header = () => {
+
+    const history = useHistory();
+
+    const logMeOut = () => {
+        history.push("/");
+    };
+
+
     return (
         <Navbar
             collapseOnSelect
@@ -15,12 +26,17 @@ const Header = () => {
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
             <Navbar.Collapse id='basic-navbar-nav'>
                 <Nav className='ml-auto'>
-                    <Nav.Link href='/dshboard'>Dashboard</Nav.Link>
-                    <Nav.Link href='/dshboard'>Tickets</Nav.Link>
-                    <Nav.Link href='/dshboard'>Logout</Nav.Link>
+                    <LinkContainer to='/dashboard'>
+                        <Nav.Link >Dashboard</Nav.Link>
+                    </LinkContainer > 
+                    <LinkContainer to='/tickets'>
+                        <Nav.Link >Tickets</Nav.Link>
+                    </LinkContainer > 
+                    <LinkContainer to=''>
+                        <Nav.Link onClick={logMeOut}>Logout</Nav.Link>
+                    </LinkContainer> 
                 </Nav>
             </Navbar.Collapse>
-
         </Navbar>
     )
 }
