@@ -7,46 +7,11 @@ import './Entry-page.css';
 
 const EntryPage = () => {
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [frmLoad, setFrmLoad] = useState("login");
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-
-        switch(name){
-            case 'email':
-                setEmail(value)
-                break;
-            case 'password':
-                setPassword(value)
-                break;
-            
-            default:
-                break;
-        }
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if(!email || !password){
-            return alert("Fill up all the form")
-        }
-
-        //TODO: Call api to submit the form
-        console.log(email, password);
-    };
 
     const handleResetSubmit = (e) => {
         e.preventDefault();
 
-        if(!email){
-            return alert("Please enter the email")
-        }
-
-        //TODO: Call api to ResetSubmit the form
-        console.log(email);
     };
 
     const formSwitcher = frmType => {
@@ -59,20 +24,16 @@ const EntryPage = () => {
                {
                    frmLoad === 'login' && (
                     <LoginForm 
-                        handleChange={handleChange} 
-                        handleSubmit={handleSubmit}
                         formSwitcher={formSwitcher}
-                        email={email}
-                        pass={password}
                     />
                )}
                {
                    frmLoad === 'reset' && (
                        <ResetPassword 
-                        handleChange={handleChange} 
+                       // handleChange={handleChange} 
                         handleResetSubmit={handleResetSubmit}
                         formSwitcher={formSwitcher}
-                        email={email}
+                       // email={email}
                        />
                 )}
            </Jumbotron>

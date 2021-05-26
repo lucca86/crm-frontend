@@ -9,6 +9,8 @@ const Header = () => {
     const history = useHistory();
 
     const logMeOut = () => {
+        sessionStorage.removeItem("accessJWT");
+        localStorage.removeItem("crmSite");
         history.push("/");
     };
 
