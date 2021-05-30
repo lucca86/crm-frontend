@@ -1,0 +1,38 @@
+import {createSlice} from '@reduxjs/toolkit';
+
+const initialState = {
+    isLoading: false,
+    successMsg: "",
+    error: ""
+};
+
+const newTicketSlice = createSlice({
+    name: 'newTicket',
+    initialState,
+    reducers: {
+        openNewTicketPending: (state) => {
+            state.isLoading = true
+        },
+        openNewTicketSuccess: (state, {payload}) => {
+            state.isLoading = false;
+            state.successMsg = payload;
+        },
+        openNewTicketFail: (state, {payload}) => {
+            state.isLoading = false;
+            state.error = payload 
+        },
+        resetSuccessMsg: (state) => {
+            state.isLoading = false;
+            state.successMsg = ""
+        }
+    },
+});
+
+export const {
+    openNewTicketPending,
+    openNewTicketSuccess,
+    openNewTicketFail,
+    resetSuccessMsg
+} = newTicketSlice.actions;
+
+export default newTicketSlice.reducer;

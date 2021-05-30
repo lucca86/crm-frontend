@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar, Nav } from "react-bootstrap";
 import { useHistory } from 'react-router-dom';
 import {LinkContainer} from 'react-router-bootstrap';
+import { userLogout } from '../../api/userApi';
 
 
 const Header = () => {
@@ -11,6 +12,7 @@ const Header = () => {
     const logMeOut = () => {
         sessionStorage.removeItem("accessJWT");
         localStorage.removeItem("crmSite");
+        userLogout();
         history.push("/");
     };
 

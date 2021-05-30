@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import React, { useEffect} from 'react';
+import { Button, Col, Container, Row, Spinner, Alert } from 'react-bootstrap';
 import PageBreadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import tickets from '../../assets/data/dummy-tickets.json';
 import MessageHistory from '../../components/Message-History/MessageHistory';
-import UpdateTicket from '../../components/Update-Ticket/UpdateTicket';
+import {UpdateTicket} from '../../components/Update-Ticket/UpdateTicket';
+import { closeTicket, fetchSingleTicket } from '../Titcket-List/ticketsAction';
+import {resetResponseMsg} from '../Titcket-List/ticketsSlicer';
 
 
 //const ticket = tickets[0];
@@ -13,26 +15,17 @@ import UpdateTicket from '../../components/Update-Ticket/UpdateTicket';
 const Ticket = () => {
 
     const {tId} = useParams();
-    const [message, setMessage] = useState(''); 
-    const [ticket, setTicket] = useState('');
+    const dispatch = useDispatch();
+    const {isLoading, error, selectedTicket, replyMsg, replyTicketError} = useSelector(state => state.tickets)
+
 
     useEffect(() => {
-        for (let i = 0; i < tickets.length; i++) {
-            if(tickets[i].id === tId){
-                setTicket(tickets[i])
-                continue;
-            }
-            
+        dispatch(fetchSingleTicket(tId));
+        return () => {
+            (replyMsg || replyTicketError) && dispatch(resetResponseMsg())
         }
-    }, [message, tId])
+    }, [tId, dispatch, replyMsg, replyTicketError])
 
-    const handleChange = (e) => {
-        setMessage(e.target.value)
-    };
-
-    const handleSubmit = () => {
-        alert('Form submited')
-    };
 
     return (
         <Container>
@@ -42,30 +35,42 @@ const Ticket = () => {
                 </Col>
             </Row>
             <Row>
-                <Col className='font-weight-bold text-secondary'>
-                    {tId}
-                    <div className='subject'>Subject: {ticket.subject}</div>
-                    <div className='date'>Ticket opened: {ticket.addedAt}</div>
-                    <div className='status'>Status: {ticket.status}</div>
+                <Col>
+                    {isLoading && <Spinner variant='primary' animation='border' />}
+                    {error && <Alert variant='danger'>{error}</Alert> }
+                    {replyTicketError && <Alert variant='danger'>{replyTicketError}</Alert> }
+                    {replyMsg && <Alert variant='success'>{replyMsg}</Alert>}
+
+                </Col>
+            </Row>
+            <Row>
+                <Col className='text-wieght-bolder text-secondary'>
+                    <div className='subject'>Subject: {selectedTicket.subject}</div>
+                    <div className='date'>
+                        Ticket opened: {" "}
+                        {selectedTicket.openAt && new Date(selectedTicket.openAt).toLocaleString()}</div>
+                    <div className='status'>Status: {selectedTicket.status}</div>
                 </Col>
                 <Col className='text-right'>
-                    <Button variant='outline-info'>Close ticket</Button>
+                    <Button 
+                        variant='outline-info'
+                        onClick={() => dispatch(closeTicket(tId))}
+                        disabled={selectedTicket.status === 'Closed'}
+                    >Close ticket</Button>
                 </Col>
             </Row>
             <Row className='mt-4'>
                 <Col>
-                {ticket.history && <MessageHistory msg={ticket.history} />}
+                {selectedTicket.conversations && (
+						<MessageHistory msg={selectedTicket.conversations} />
+					)}
                     
                 </Col>
             </Row>
             <hr />
             <Row className='mt-4'>
                 <Col>
-                    <UpdateTicket 
-                        msg={message} 
-                        handleChange={handleChange} 
-                        handleSubmit={handleSubmit}
-                    />
+                    <UpdateTicket _id = {tId} />
                 </Col>
             </Row>
         </Container>

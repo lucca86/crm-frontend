@@ -11,6 +11,7 @@ import TicketList from './pages/Titcket-List/TicketList';
 import Dashboard from './pages/Dashboard/Dashboard';
 import AddTicket from './pages/New-ticket/AddTicket';
 import EntryPage from './pages/entry/EntryPage';
+import {Registration} from './pages/Registration/Registration.page';
 
 import './App.css';
 
@@ -21,6 +22,9 @@ function App() {
         <Switch>
           <Route exact path='/'>
             <EntryPage />
+          </Route>
+          <Route exact path='/registration'>
+            <Registration />
           </Route>
             <PrivateRoute path='/dashboard'>
               <Dashboard />

@@ -22,21 +22,24 @@ const TicketTable = () => {
                 </tr>
             </thead>
             <tbody>
-                {searchTicketList.length ?
-                     searchTicketList.map(row => (
-                        <tr key={row._id}>
-                            <td>{row._id}</td>
-                            <Link to={`/ticket/${row._id}`}>
-                                <td>{row.subject}</td>
-                            </Link>
-                            <td>{row.status}</td>
-                            <td>{row.openAt}</td>
-                        </tr>
-                     )): (
-                         <tr>
-                             <td colSpan='4' className='text-center'>No tickets to show</td>
-                         </tr>
-                     )}
+            {searchTicketList.length ? (
+                searchTicketList.map((row) => (
+                    <tr key={row._id}>
+                    <td>{row._id}</td>
+                    <td>
+                        <Link to={`/ticket/${row._id}`}>{row.subject}</Link>
+                    </td>
+                    <td>{row.status}</td>
+                    <td>{row.openAt && new Date(row.openAt).toLocaleString()}</td>
+                    </tr>
+                ))
+                ) : (
+                <tr>
+                    <td colSpan="4" className="text-center">
+                    No ticket show{" "}
+                    </td>
+                </tr>
+                )}
             </tbody>
         </Table>        
     );
