@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row, Spinner, Alert } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { userRegistration } from './userRegistrationAction';
 
 
 const initialState = {
-    name: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    company: '',
-    address: '',
-    password: '',
-    confirmPass: '',
+    name: 'Charles',
+    lastName: 'Leclerc',
+    email: 'charles@ferrari.com',
+    phone: '123789',
+    company: 'Ferrari',
+    address: 'Barcelona',
+    password: 'Cl@123456',
+    confirmPass: 'Cl@123456',
 };
 
 const passVerification = {
@@ -25,8 +27,10 @@ const passVerification = {
 
 const RegistrationForm = () => {
 
+    const dispatch = useDispatch();
     const [newUser, setNewUser] = useState(initialState);    
     const [passwordError, setPasswordError] = useState(passVerification);
+    const {isLoading, status, message} = useSelector(state => state.registration)
 
     useEffect(() => {}, [newUser])
 
@@ -60,7 +64,7 @@ const RegistrationForm = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log(newUser);
+        dispatch(userRegistration(newUser));
     }
 
     return (
@@ -71,7 +75,11 @@ const RegistrationForm = () => {
                 </Col>
             </Row>
             <hr />
-
+            <Row>
+                <Col>
+                    {message && <Alert variant={status === 'success' ? 'success' : 'danger'}>{message}</Alert>}
+                </Col>
+            </Row>
             <Row>
                 <Col>
                     <Form onSubmit={handleSubmit}>
@@ -165,6 +173,12 @@ const RegistrationForm = () => {
                         >
                             Submit
                         </Button>
+                        <Row className='text-center mt-2'>
+                            <Col>
+                            {isLoading && <Spinner variant='info' animation='border' />}
+                            </Col>
+                        </Row>
+
                     </Form>
                 </Col>
             </Row>
