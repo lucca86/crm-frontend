@@ -12,6 +12,8 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import AddTicket from './pages/New-ticket/AddTicket';
 import EntryPage from './pages/entry/EntryPage';
 import {Registration} from './pages/Registration/Registration.page';
+import {UserVerification} from './pages/user-verification/UserVerification.page';
+import {PasswordOtpForm} from './components/password-reset/PasswordOtpForm.page';
 
 import './App.css';
 
@@ -23,8 +25,14 @@ function App() {
           <Route exact path='/'>
             <EntryPage />
           </Route>
+          <Route exact path='/password-reset'>
+            <PasswordOtpForm />
+          </Route>
           <Route exact path='/registration'>
             <Registration />
+          </Route>
+          <Route exact path='/verification/:_id/:email'>
+            <UserVerification />
           </Route>
             <PrivateRoute path='/dashboard'>
               <Dashboard />

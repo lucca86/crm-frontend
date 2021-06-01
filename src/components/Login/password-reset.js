@@ -1,14 +1,36 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Col, Container, Form, Row, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-const ResetPassword = ({ handleChange, handleResetSubmit, formSwitcher, email}) => {
+import { Col, Container, Form, Row, Button, Alert, Spinner } from 'react-bootstrap';
+import { sendPasswordResetOtp } from '../password-reset/passwordAction';
+
+
+
+const ResetPassword = () => {
+
+    const dispatch = useDispatch();
+    const [email, setEmail] = useState('');
+    const {isLoading, status, message} = useSelector(state => state.password);
+
+
+    const handleResetSubmit = (e) => {
+        e.preventDefault();
+        console.log(email);
+        dispatch(sendPasswordResetOtp(email));
+    }
+    
+    const handleChange = (e) => {
+        const {value} = e.target;
+        setEmail(value);
+    }
     return (
         <Container>
             <Row>
                 <Col>
                     <h1 className='text-info text-center' >Reset password</h1>
                     <hr />
+                    {message && <Alert variant={status === 'success' ? 'success' : 'danger'}>{message}</Alert>}
+                    {isLoading && <Spinner variant='primary' animation='border' />}
                     <Form autoComplete='off' onSubmit={handleResetSubmit}>
                         <Form.Group>
                             <Form.Label>Email Address</Form.Label>
@@ -31,18 +53,11 @@ const ResetPassword = ({ handleChange, handleResetSubmit, formSwitcher, email}) 
             </Row>
             <Row>
                 <Col>
-                    <a href='#!' onClick={() => formSwitcher('login')}>Login now</a>
+                    <a href='/'>Login now</a>
                 </Col>
             </Row>
         </Container>
     )
-}
-
-ResetPassword.propsTypes = {
-    handleChange: PropTypes.func.isRequired,
-    handleResetSubmit: PropTypes.func.isRequired,
-    formSwitcher: PropTypes.func.isRequired,
-    email: PropTypes.string.isRequired
 }
 
 export default ResetPassword;

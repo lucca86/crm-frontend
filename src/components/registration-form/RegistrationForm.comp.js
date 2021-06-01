@@ -64,7 +64,26 @@ const RegistrationForm = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        dispatch(userRegistration(newUser));
+        const {
+            name,
+            lastName,
+            email,
+            company,
+            phone,
+            address,
+            password
+        } = newUser
+
+        const newRegistration = {
+            name,
+            lastName,
+            email,
+            company,
+            phone,
+            address,
+            password
+        }
+        dispatch(userRegistration(newRegistration));
     }
 
     return (
